@@ -62,10 +62,10 @@ class Tacotron():
         # Reference encoder
         refnet_outputs = reference_encoder(
           reference_mel, 
-          filters=hp.reference_filters, 
+          filters=hp.ref_filters, 
           kernel_size=(3,3),
           strides=(2,2),
-          encoder_cell=GRUCell(hp.reference_depth),
+          encoder_cell=GRUCell(hp.ref_depth),
           is_training=is_training)                                                 # [N, 128]
         self.refnet_outputs = refnet_outputs                                       
 
