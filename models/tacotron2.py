@@ -34,7 +34,6 @@ class Tacotron():
     '''
     with tf.variable_scope('inference') as scope:
       is_training = linear_targets is not None
-      is_teacher_force_generating = mel_targets is not None
       batch_size = tf.shape(inputs)[0]
       hp = self._hparams
 
@@ -44,12 +43,11 @@ class Tacotron():
         initializer=tf.truncated_normal_initializer(stddev=0.5))
       embedded_inputs = tf.nn.embedding_lookup(embedding_table, inputs)           # [N, T_in, 256]
       
-      if hp.use_gst:
         #Global style tokens (GST)
-        gst_tokens = tf.get_variable(
-          'style_tokens', [hp.num_gst, hp.style_embed_depth // hp.num_heads], dtype=tf.float32,
-          initializer=tf.truncated_normal_initializer(stddev=0.5))
-        self.gst_tokens = gst_tokens
+      gst_tokens = tf.get_variable(
+        'style_tokens', [hp.num_gst, hp.style_embed_depth // hp.num_heads], dtype=tf.float32,
+        initializer=tf.truncated_normal_initializer(stddev=0.5))
+      self.gst_tokens = gst_tokens
  
       # Encoder
       prenet_outputs = prenet(embedded_inputs, is_training, hp.prenet_depths)                       # [N, T_in, 128]
@@ -69,18 +67,16 @@ class Tacotron():
           is_training=is_training)                                                 # [N, 128]
         self.refnet_outputs = refnet_outputs                                       
 
-        if hp.use_gst:
           # Style attention
-          style_attention = MultiheadAttention(
-            tf.expand_dims(refnet_outputs, axis=1),                                   # [N, 1, 128]
-            tf.tanh(tf.tile(tf.expand_dims(gst_tokens, axis=0), [batch_size,1,1])),            # [N, hp.num_gst, 256/hp.num_heads]   
-            num_heads=hp.num_heads,
-            num_units=hp.style_att_dim,
-            attention_type=hp.style_att_type)
+        style_attention = MultiheadAttention(
+          tf.expand_dims(refnet_outputs, axis=1),                                   # [N, 1, 128]
+          tf.tanh(tf.tile(tf.expand_dims(gst_tokens, axis=0), [batch_size,1,1])),            # [N, hp.num_gst, 256/hp.num_heads]   
+          num_heads=hp.num_heads,
+          num_units=hp.style_att_dim,
+          attention_type=hp.style_att_type)
 
-          embedded_tokens = style_attention.multi_head_attention()                   # [N, 1, 256]
-        else:
-          embedded_tokens = tf.expand_dims(refnet_outputs, axis=1)                   # [N, 1, 128]
+        embedded_tokens = style_attention.multi_head_attention()                   # [N, 1, 256]
+    
       else:
         random_weights = tf.constant(4*[[0]*(hp.gst_index-1)+[1]+[0]*(hp.num_gst-hp.gst_index)], dtype=tf.float32)
         random_weights = tf.nn.softmax(random_weights, name="random_weights")
@@ -114,7 +110,7 @@ class Tacotron():
       output_cell = OutputProjectionWrapper(decoder_cell, hp.num_mels * hp.outputs_per_step)
       decoder_init_state = output_cell.zero_state(batch_size=batch_size, dtype=tf.float32)
 
-      if is_training or is_teacher_force_generating:
+      if is_training:
         helper = TacoTrainingHelper(inputs, mel_targets, hp)
       else:
         helper = TacoTestHelper(batch_size, hp)
