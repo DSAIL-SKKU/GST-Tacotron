@@ -78,9 +78,9 @@ class Tacotron():
             num_units=hp.style_att_dim,
             attention_type=hp.style_att_type)
 
-          style_embeddings = style_attention.multi_head_attention()                   # [N, 1, 256]
+          embedded_tokens = style_attention.multi_head_attention()                   # [N, 1, 256]
         else:
-          style_embeddings = tf.expand_dims(refnet_outputs, axis=1)                   # [N, 1, 128]
+          embedded_tokens = tf.expand_dims(refnet_outputs, axis=1)                   # [N, 1, 128]
       else:
         random_weights = tf.constant(4*[[0]*(hp.gst_index-1)+[1]+[0]*(hp.num_gst-hp.gst_index)], dtype=tf.float32)
         random_weights = tf.nn.softmax(random_weights, name="random_weights")
