@@ -31,6 +31,7 @@ hparams = tf.contrib.training.HParams(
     style_att_dim=128,
     gst_index=3,
     gst_scale=0.3,
+    use_gst=True,
 
     #Attention
     attention_depth=256,
