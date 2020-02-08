@@ -47,7 +47,7 @@ hparams = tf.contrib.training.HParams(
 
     # Model:
     model='tacotron2',
-    outputs_per_step=5,
+    outputs_per_step=2,
     prenet_depths=[256, 128],
     prenet_depths2=[256, 256],
     encoder_depth=256,
