@@ -27,7 +27,7 @@ def build_from_path(in_dir, out_dir, num_workers=1, tqdm=lambda x: x):
         for line in f:
             try:
 
-                parts = line.strip().split('|')
+                parts = line.strip().replace('"', '').split('|')
                 wav_path = os.path.join(in_dir, 'wavs', '%s' % parts[0])
                 wav_path.replace('"', '')
                 print(wav_path)
