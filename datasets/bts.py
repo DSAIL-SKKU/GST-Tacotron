@@ -2,6 +2,7 @@ from concurrent.futures import ProcessPoolExecutor
 from functools import partial
 import numpy as np
 import os
+import string
 from util import audio
 
 
@@ -29,6 +30,7 @@ def build_from_path(in_dir, out_dir, num_workers=1, tqdm=lambda x: x):
 
                 parts = line.strip().split('|')
                 wav_path = os.path.join(in_dir, 'wavs', '%s' % parts[0])
+                wav_path.replace('"', '')
                 text = parts[1]
                 futures.append(executor.submit(partial(_process_utterance, out_dir, index, wav_path, text)))
                 index += 1
