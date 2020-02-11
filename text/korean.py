@@ -260,8 +260,8 @@ def number_to_korean(num_str, is_count=False):
         num_str, unit_str = num_str.group(), ""
 
     num_str = num_str.replace(',', '')
-    if num_str == '0':
-        num = ast.literal_eval(num_str)
+    if num_str.lstrip('0') == '':
+        num = 0
     else:
         num = ast.literal_eval(num_str.lstrip('0'))
     
