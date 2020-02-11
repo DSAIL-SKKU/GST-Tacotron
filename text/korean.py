@@ -289,7 +289,7 @@ def number_to_korean(num_str, is_count=False):
     tmp = []
 
     for i, v in enumerate(digit_str, start=1):
-        v = int(v)
+        v = int(v.replace('+',''))
 
         if v != 0:
             if is_count:
