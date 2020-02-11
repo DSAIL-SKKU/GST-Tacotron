@@ -165,7 +165,6 @@ def normalize(text):
     text = text.strip()
 
     text = re.sub('\(\d+일\)', '', text)
-    text = re.sub('[[-=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘|\(\)\[\]\<\>`\'…》]', '', text)
     text = re.sub('\([⺀-⺙⺛-⻳⼀-⿕々〇〡-〩〸-〺〻㐀-䶵一-鿃豈-鶴侮-頻並-龎]+\)', '', text)
 
     text = normalize_with_dictionary(text, etc_dictionary)
@@ -291,7 +290,7 @@ def number_to_korean(num_str, is_count=False):
 
     for i, v in enumerate(digit_str, start=1):
         if v == '+':
-            return "플러스"
+            return " "
         v = int(v)
 
         if v != 0:
