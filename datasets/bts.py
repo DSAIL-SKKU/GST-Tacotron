@@ -29,11 +29,8 @@ def build_from_path(in_dir, out_dir, num_workers=1, tqdm=lambda x: x):
 
                 parts = line.strip().split('|')
                 wav_path = os.path.join(in_dir, 'wavs', '%s' % parts[0])
-<<<<<<< HEAD
-=======
                 wav_path.replace('"', '')
                 
->>>>>>> e6280cc06fd77017bd4c5a826dbf0d074f2fa12c
                 text = parts[1]
                 futures.append(executor.submit(partial(_process_utterance, out_dir, index, wav_path, text)))
                 index += 1
