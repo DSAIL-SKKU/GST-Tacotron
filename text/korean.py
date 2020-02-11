@@ -260,7 +260,7 @@ def number_to_korean(num_str, is_count=False):
         num_str, unit_str = num_str.group(), ""
 
     num_str = num_str.replace(',', '')
-    num = ast.literal_eval(num_str)
+    num = ast.literal_eval(num_str.lstrip('0'))
 
     if num == 0:
         return "영"
