@@ -46,7 +46,7 @@ def run_eval(args):
     base_path = get_output_base_path(args.checkpoint)
 
     for i, text in enumerate(sentences):
-        path = '%s-%d.wav' % (base_path, i)
+        path = '%s_%d_%d.wav' % ('gst', hparams.gst_index, hparams.gst_scale)
         print('Synthesizing: %s' % path)
         with open(path, 'wb') as f:
             f.write(synth.synthesize(text, reference_mel=reference_mel))
