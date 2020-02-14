@@ -59,7 +59,7 @@ def write_metadata(metadata, out_dir):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--base_dir', default=os.path.expanduser('~/jeewoo/GST-Tacotron/'))
+    parser.add_argument('--base_dir', default=os.path.expanduser('~/tacotron/GST-Tacotron/'))
     parser.add_argument('--output', default='training')
     parser.add_argument('--dataset', required=True, choices=['blizzard', 'ljspeech', 'bible', 'kss', 'bts'])
     parser.add_argument('--num_workers', type=int, default=cpu_count())
