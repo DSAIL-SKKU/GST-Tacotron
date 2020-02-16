@@ -6,8 +6,10 @@ import os
 import ast
 import json
 from jamo import hangul_to_jamo, h2j, j2h
+from jamo.jamo import _jamo_char_to_hcj
 
 from .kor_dic import english_dictionary, etc_dictionary
+from text.g2p2_demo import runKoG2PTest
 
 PAD = '_'
 EOS = '~'
