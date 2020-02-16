@@ -5,7 +5,7 @@ import re
 import os
 import ast
 import json
-from jamo import hangul_to_jamo, h2j, j2h
+from jamo import hangul_to_jamo, h2j, j2h, hcj_to_jamo, is_hcj
 from jamo.jamo import _jamo_char_to_hcj
 
 from .kor_dic import english_dictionary, etc_dictionary
@@ -247,7 +247,7 @@ def tokenize(text, as_id=False, symbol_type=0, debug=False):
             return [token for token in tokens] + [EOS]
 
 
-def tokenizer_fn(iterator):
+def tokenizer_fn(iterator, symbol_type):
     return (token for x in iterator for token in tokenize(x, as_id=False, symbol_type=symbol_type))
 
 
