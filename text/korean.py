@@ -20,7 +20,15 @@ JAMO_TAILS = "".join([chr(_) for _ in range(0x11A8, 0x11C3)])
 
 VALID_CHARS = JAMO_LEADS + JAMO_VOWELS + JAMO_TAILS + PUNC + SPACE
 ALL_SYMBOLS = PAD + EOS + VALID_CHARS
+ALL_SYMBOLS_1 = ['p0','ph','pp','t0','th','tt','k0','kh','kk','s0','ss','h0','c0','ch','cc','mm','nn','rr','pf','tf','kf','mf','nf','ll','ng','oh','ii','ee','qq','aa','xx','vv','uu','oo','ye','yq','ya','yv','yu','yo','wi','wo','wq','we','wa','wv','xi','zz',' ','#','ks ','nc ','nh ','lk ','lm ','lb ','ls ','lt ','lp ','lh ','ps ','.','~']
+ALL_SYMBOLS_2 = "_~ㄱㄲㄳㄴㄵㄶㄷㄸㄹㄺㄻㄼㄾㅀㅁㅂㅃㅄㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ!'(),-.:;? "
+ALL_SYMBOLS_3 = "_~ᄀᄂᄃᄅᄆᄇᄉᄋᄌᄎᄏᄐᄑᄒㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎ!'(),-.;? "
+ALL_SYMBOLS_4 = "_~ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ!'(),-.;? "
 
+char_to_id_1 = {s: i for i, s in enumerate(ALL_SYMBOLS_1)}
+char_to_id_2 = {s: i for i, s in enumerate(ALL_SYMBOLS_2)}
+char_to_id_3 = {s: i for i, s in enumerate(ALL_SYMBOLS_3)}
+char_to_id_4 = {s: i for i, s in enumerate(ALL_SYMBOLS_4)}
 char_to_id = {c: i for i, c in enumerate(ALL_SYMBOLS)}
 id_to_char = {i: c for i, c in enumerate(ALL_SYMBOLS)}
 
@@ -145,24 +153,107 @@ upper_to_kor = {
 def compare_sentence_with_jamo(text1, text2):
     return h2j(text1) != h2j(text2)
 
+def load_symbols_1():
+    jamo    = "_~ᄀᄁᄂᄃᄄᄅᄆᄇᄈᄉᄊᄋᄌᄍᄎᄏᄐᄑ하ᅢᅣᅤᅥᅦᅧᅨᅩᅪᅫᅬᅭᅮᅯᅰᅱᅲᅳᅴᅵᆨᆩᆪᆫᆬᆭᆮᆯᆰᆱᆲᆳᆴᆵᆶᆷᆸᆹᆺᆻᆼᆽᆾᆿᇀᇁᇂ!'(),-.:;? "
+    hj      = "_~ᄀᄁᄂᄃᄄᄅᄆᄇᄈᄉᄊᄋᄌᄍᄎᄏᄐᄑᄒㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣㄱㄲㄳㄴㄵㄶㅇㄹㄺㄻㄼㄽㄾㄿㅀㅁㅂㅄㅅㅆㅇㅈㅊㅋㅌㅍㅎ!'(),-.:;? "
+    assert len(jamo) == len(hj)
+    j2hj = {j: h for j, h in zip(jamo, hj)}
+    return j2hj
+
+def load_symbols_2():
+  jamo  = "_~ᄀᄁᄂᄃᄄᄅᄆᄇᄈᄉᄊᄋᄌᄍᄎᄏᄐᄑ하ᅢᅣᅤᅥᅦᅧᅨᅩᅪᅫᅬᅭᅮᅯᅰᅱᅲᅳᅴᅵᆨᆩᆪᆫᆬᆭᆮᆯᆰᆱᆲᆳᆴᆵᆶᆷᆸᆹᆺᆻᆼᆽᆾᆿᇀᇁᇂ!'(),-.:;? "
+  hcj   = "_~ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣㄱㄲㄳㄴㄵㄶㄷㄹㄺㄻㄼㄽㄾㄿㅀㅁㅂㅄㅅㅆㅇㅈㅊㅋㅌㅍㅎ!'(),-.:;? "
+  assert len(jamo) == len(hcj)
+  j2hcj = {j: h for j, h in zip(jamo, hcj)}
+  return j2hcj
+
+def load_symbols_3():
+  jamo  = "_~ᄀᄁᄂᄃᄄᄅᄆᄇᄈᄉᄊᄋᄌᄍᄎᄏᄐᄑ하ᅢᅣᅤᅥᅦᅧᅨᅩᅪᅫᅬᅭᅮᅯᅰᅱᅲᅳᅴᅵᆨᆩᆪᆫᆬᆭᆮᆯᆰᆱᆲᆳᆴᆵᆶᆷᆸᆹᆺᆻᆼᆽᆾᆿᇀᇁᇂ!'(),-.:;? "
+  sj  =  "_|~|ᄀ|ᄀᄀ|ᄂ|ᄃ|ᄃᄃ|ᄅ|ᄆ|ᄇ|ᄇᄇ|ᄉ|ᄉᄉ|ᄋ|ᄌ|ᄌᄌ|ᄎ|ᄏ|ᄐ|ᄑ|ᄒ|ㅏ|ㅐ|ㅑ|ㅒ|ㅓ|ㅔ|ㅕ|ㅖ|ㅗ|ㅘ|ㅙ|ㅚ|ㅛ|ㅜ|ㅝ|ㅞ|ㅟ|ㅠ|ㅡ|ㅢ|ㅣ|ㄱ|ㄱㄱ|ㄱㅅ|ㄴ|ㄴㅈ|ㄴㅎ|ㄷ|ㄹ|ㄹㄱ|ㄹㅁ|ㄹㅂ|ㄹㅅ|ㄹㅌ|ㄹㅍ|ㄹㅎ|ㅁ|ㅂ|ㅂㅅ|ㅅ|ㅅㅅ|ㅇ|ㅈ|ㅊ|ㅋ|ㅌ|ㅍ|ㅎ|!|'|(|)|,|-|.|:|;|?| "
+  assert len(jamo) == len(sj.split("|"))
+  j2sj = {j: s for j, s in zip(jamo, sj.split("|"))}
+  return j2sj
+
+def load_symbols_4():
+  jamo  = "_~ᄀᄁᄂᄃᄄᄅᄆᄇᄈᄉᄊᄋᄌᄍᄎᄏᄐᄑ하ᅢᅣᅤᅥᅦᅧᅨᅩᅪᅫᅬᅭᅮᅯᅰᅱᅲᅳᅴᅵᆨᆩᆪᆫᆬᆭᆮᆯᆰᆱᆲᆳᆴᆵᆶᆷᆸᆹᆺᆻᆼᆽᆾᆿᇀᇁᇂ!'(),-.:;? "
+  shcj  = "_|~|ㄱ|ㄱㄱ|ㄴ|ㄷ|ㄷㄷ|ㄹ|ㅁ|ㅂ|ㅂㅂ|ㅅ|ㅅㅅ|ㅇ|ㅈ|ㅈㅈ|ㅊ|ㅋ|ㅌ|ㅍ|ㅎ|ㅏ|ㅐ|ㅑ|ㅒ|ㅓ|ㅔ|ㅕ|ㅖ|ㅗ|ㅘ|ㅙ|ㅚ|ㅛ|ㅜ|ㅝ|ㅞ|ㅟ|ㅠ|ㅡ|ㅢ|ㅣ|ㄱ|ㄱㄱ|ㄱㅅ|ㄴ|ㄴㅈ|ㄴㅎ|ㄷ|ㄹ|ㄹㄱ|ㄹㅁ|ㄹㅂ|ㄹㅅ|ㄹㅌ|ㄹㅍ|ㄹㅎ|ㅁ|ㅂ|ㅂㅅ|ㅅ|ㅅㅅ|ㅇ|ㅈ|ㅊ|ㅋ|ㅌ|ㅍ|ㅎ|!|'|(|)|,|-|.|:|;|?| "
+  assert len(jamo) == len(shcj.split("|"))
+  j2shcj = {j: s for j, s in zip(jamo, shcj.split("|"))}
+  return j2shcj
 
 def tokenize(text, as_id=False):
     # jamo package에 있는 hangul_to_jamo를 이용하여 한글 string을 초성/중성/종성으로 나눈다.
+    j2hj, j2hcj, j2sj, j2shcj = load_symbols_1(), load_symbols_2(), load_symbols_3(), load_symbols_4()
+    
     text = normalize(text)
-    tokens = list(hangul_to_jamo(text))  # '존경하는'  --> ['ᄌ', 'ᅩ', 'ᆫ', 'ᄀ', 'ᅧ', 'ᆼ', 'ᄒ', 'ᅡ', 'ᄂ', 'ᅳ', 'ᆫ', '~']
+    tokens = []
 
-    if as_id:
-        return [char_to_id[token] for token in tokens] + [char_to_id[EOS]]
+    if symbol_type:
+        pre_tokens = list(hangul_to_jamo(text))
+        pre_tokens = [hcj_to_jamo(_, "lead") if is_hcj(_) else _ for _ in pre_tokens]
     else:
-        return [token for token in tokens] + [EOS]
+        # print(runKoG2PTest(text, 'text/rulebook.txt'))
+        pre_tokens = runKoG2PTest(text, 'text/rulebook.txt').split(' ')
+        if as_id:
+            return [char_to_id_1[pre] for pre in pre_tokens] + [char_to_id_1[EOS]]
+        else:
+            return [pre for pre in pre_tokens] + [EOS]
+
+
+    if symbol_type == 1:
+        if debug:
+            print(char_to_id_1)
+        for token in pre_tokens:
+            tokens += list(j2hj[token])
+            
+        if as_id:
+            return [char_to_id_1[token] for token in tokens] + [char_to_id_1[EOS]]
+        else:
+            return [token for token in tokens] + [EOS]
+
+    elif symbol_type == 2:
+        if debug:
+            print(char_to_id_2)
+        for token in pre_tokens:
+            tokens += list(j2hcj[token])
+
+        if as_id:
+            return [char_to_id_2[token] for token in tokens] + [char_to_id_2[EOS]]
+        else:
+            return [token for token in tokens] + [EOS]
+
+    elif symbol_type == 3:
+        if debug:
+            print(char_to_id_3)
+        for token in pre_tokens:
+            tokens += list(j2sj[token])
+
+        if as_id:
+            return [char_to_id_3[token] for token in tokens] + [char_to_id_3[EOS]]
+        else:
+            return [token for token in tokens] + [EOS]
+
+    elif symbol_type == 4:
+        if debug:
+            print(char_to_id_4)
+        for token in pre_tokens:
+            tokens += list(j2shcj[token])
+
+        if as_id:
+            return [char_to_id_4[token] for token in tokens] + [char_to_id_4[EOS]]
+        else:
+            return [token for token in tokens] + [EOS]
 
 
 def tokenizer_fn(iterator):
-    return (token for x in iterator for token in tokenize(x, as_id=False))
+    return (token for x in iterator for token in tokenize(x, as_id=False, symbol_type=symbol_type))
 
 
 def normalize(text):
     text = text.strip()
+
+    text = text.replace("'", "")
+    text = text.replace('"', "")
 
     text = re.sub('\(\d+일\)', '', text)
     text = re.sub('\([⺀-⺙⺛-⻳⼀-⿕々〇〡-〩〸-〺〻㐀-䶵一-鿃豈-鶴侮-頻並-龎]+\)', '', text)
@@ -260,10 +351,10 @@ def number_to_korean(num_str, is_count=False):
         num_str, unit_str = num_str.group(), ""
 
     num_str = num_str.replace(',', '')
-    if num_str.lstrip('0') == '':
-        num = 0
-    else:
-        num = ast.literal_eval(num_str.lstrip('0'))
+    try:
+        num = ast.literal_eval(num_str)
+    except:
+        num = int(num_str)
     
     if num == 0:
         return "영"
