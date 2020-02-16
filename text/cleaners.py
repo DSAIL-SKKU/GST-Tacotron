@@ -16,7 +16,7 @@ _whitespace_re = re.compile(r'\s+')
 def korean_cleaners(text):
     '''Pipeline for Korean text, including number and abbreviation expansion.'''
     text = ko_tokenize(text)
-    print(text)# '존경하는' --> ['ᄌ', 'ᅩ', 'ᆫ', 'ᄀ', 'ᅧ', 'ᆼ', 'ᄒ', 'ᅡ', 'ᄂ', 'ᅳ', 'ᆫ', '~']
+    # '존경하는' --> ['ᄌ', 'ᅩ', 'ᆫ', 'ᄀ', 'ᅧ', 'ᆼ', 'ᄒ', 'ᅡ', 'ᄂ', 'ᅳ', 'ᆫ', '~']
     return text
 
 
