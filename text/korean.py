@@ -181,7 +181,7 @@ def load_symbols_4():
   j2shcj = {j: s for j, s in zip(jamo, shcj.split("|"))}
   return j2shcj
 
-def tokenize(text, as_id=False):
+def tokenize(text, as_id=False, symbol_type=0, debug=False):
     # jamo package에 있는 hangul_to_jamo를 이용하여 한글 string을 초성/중성/종성으로 나눈다.
     j2hj, j2hcj, j2sj, j2shcj = load_symbols_1(), load_symbols_2(), load_symbols_3(), load_symbols_4()
     
