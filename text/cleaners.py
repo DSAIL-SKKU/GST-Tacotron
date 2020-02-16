@@ -85,3 +85,4 @@ def basic_cleaners(text):
 #     text = expand_abbreviations(text)
 #     text = collapse_whitespace(text)
 #     return text
+print(korean_cleaners("안녕하세요"))
