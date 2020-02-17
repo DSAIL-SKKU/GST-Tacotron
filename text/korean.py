@@ -5,7 +5,7 @@ import re
 import os
 import ast
 import json
-from korean_romanizer import Romanizer
+from .korean_romanizer import Romanizer
 from jamo import hangul_to_jamo, h2j, j2h
 
 from .kor_dic import english_dictionary, etc_dictionary
