@@ -23,7 +23,7 @@ hparams = tf.contrib.training.HParams(
     encoder_lstm_hidden_dim=256,
 
     #Global Style Token
-    num_gst=10,
+    num_gst=15,
     style_embed_depth=256,
     ref_filters=[32, 32, 64, 64, 128, 128],
     ref_depth=128,
