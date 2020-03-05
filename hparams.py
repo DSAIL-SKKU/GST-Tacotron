@@ -23,7 +23,7 @@ hparams = tf.contrib.training.HParams(
     encoder_lstm_hidden_dim=256,
 
     #Global Style Token
-    num_gst=10,
+    num_gst=15,
     style_embed_depth=256,
     ref_filters=[32, 32, 64, 64, 128, 128],
     ref_depth=128,
@@ -46,10 +46,9 @@ hparams = tf.contrib.training.HParams(
     num_heads=4,
 
     # Model:
-    model='tacotron2',
+    model='tacotron',
     outputs_per_step=2,
     prenet_depths=[256, 128],
-    prenet_depths2=[256, 256],
     encoder_depth=256,
     postnet_depth=256,
     reg_weight = 1e-6,

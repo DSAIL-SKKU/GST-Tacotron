@@ -3,7 +3,7 @@ from .tacotron2 import Tacotron
 
 
 def create_model(name, hparams):
-  if hparams.model == 'tacotron2':
+  if hparams.model == 'tacotron':
     return Tacotron(hparams)
   # elif hparams.model == 'tacotron2':
   #   return Tacotron2(hparams)
